@@ -225,17 +225,17 @@ unsigned long long stack_t<T>::hash_count() {
     unsigned long long new_hash = hash_arr(data_ + canary_size_ + 1, size_ - canary_size_);
 
     static int divisor = rand() % 1000 + 5000;
-    static int addent_1 = rand() % 228 + 7;
-    new_hash += canary1_ / (divisor + addent_1);
+    static int addend_1 = rand() % 228 + 7;
+    new_hash += canary1_ / (divisor + addend_1);
     new_hash += canary2_ / divisor;
 
     static int multiplier = rand() % 1000 + 1337;
-    static int addent_2 = rand() % 1488 + 3;
+    static int addend_2 = rand() % 1488 + 3;
     new_hash += maxsize_ * multiplier;
-    new_hash += size_ * (multiplier + addent_1);
+    new_hash += size_ * (multiplier + addend_1);
 
-    new_hash += *canary3_ / (divisor + addent_2);
-    new_hash += *canary4_ / (divisor + addent_2 + addent_1);
+    new_hash += *canary3_ / (divisor + addend_2);
+    new_hash += *canary4_ / (divisor + addend_2 + addend_1);
 
     return new_hash;
 
