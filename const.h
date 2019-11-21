@@ -1,6 +1,7 @@
 #ifndef CONST_H_INCLUDED
 #define CONST_H_INCLUDED
 
+#define FULL_OKAY
 
 typedef unsigned long canary_t;
 
@@ -8,26 +9,39 @@ const canary_t canary_arr[7] = {0xEDA0BEDA, 0xADD0BEEF,
  0xDAD0DEAD, 0xFEED0BEE, 0xBABA0BAD, 0xFADEBEEF,
  0xADD0EDA0};
 
-const int MAXSIZE = 69;
 
 template <typename T>
 struct stack_t {
 
     private:
+
+    #ifdef FULL_OKAY
         canary_t canary1_;
 
         unsigned long long hash_;
+    #endif //FULL_OKAY
 
         int size_;
         int maxsize_;
         T *data_;
+
+    #ifdef FULL_OKAY
         int canary_size_;
         canary_t * canary3_;
         canary_t * canary4_;
+    #endif //FULL_OKAY
 
         bool okay();
+    public:
+
         bool Dump(unsigned int);
+
+    private:
+
+    #ifdef FULL_OKAY
         unsigned long long hash_count();
+    #endif //FULL_OKAY
+
         T* my_realloc();
 
     public:
@@ -37,7 +51,10 @@ struct stack_t {
         bool destruct();
 
     private:
+
+    #ifdef FULL_OKAY
         canary_t canary2_;
+    #endif //FULL_OKAY
 
 };
 
