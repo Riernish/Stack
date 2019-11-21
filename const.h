@@ -4,12 +4,22 @@
 #define FULL_OKAY
 
 typedef unsigned long canary_t;
-
+/**
+ * array of possible amounts for canaries
+ */
 const canary_t canary_arr[7] = {0xEDA0BEDA, 0xADD0BEEF,
  0xDAD0DEAD, 0xFEED0BEE, 0xBABA0BAD, 0xFADEBEEF,
  0xADD0EDA0};
 
-
+/**
+ *
+ * @tparam T
+ * template structure of stack
+ * @params canary1, canary2 - all structure protection
+ * @params canary3, canary4 - data protection
+ * @param canary_size size of 1 canary in blocks of data
+ * @param hash_ current amount for stack's hash sum
+ */
 template <typename T>
 struct stack_t {
 
@@ -46,7 +56,7 @@ struct stack_t {
 
     public:
         bool push(T val);
-        T pop();
+        T pop();//
         bool construct(int size_need);
         bool destruct();
 
