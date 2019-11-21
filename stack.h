@@ -10,24 +10,37 @@
 
 using namespace std;
 
-
+/**
+ * \brief pushes value to stack
+ * @tparam T template type
+ * @param val value should be pushed in stack
+ * @return true if all is correct
+ */
 template <typename T>
 bool stack_t<T>::push(T val) {
 
     okay();
-    if (size_ - canary_size_ == maxsize_ )
+    if (size_ - canary_size_ == maxsize_ )//if stack is filled
         data_ = this -> my_realloc();
 
 
 
     data_[size_++] = val;
-    hash_ = this -> hash_count();
-    okay();
+
+#ifdef FULL_OKAY
+    hash_ = this -> hash_count();//hash recount
+#endif //FULL_OKAY
+
     return okay();
 
 }
 
-
+/**
+ * \brief extract value from stack
+ * @tparam T template type
+ * @return extracted value if all is OK
+ * @exit program otherwise
+ */
 template <typename T>
 T stack_t<T>::pop() {
 
@@ -36,11 +49,15 @@ T stack_t<T>::pop() {
     if (size_ == canary_size_) {
 
         cout << "An attempt to pop empty stack was made" << endl;
+        this -> Dump(POP_EMPTY);
         exit(POP_EMPTY);
 
     }
     T x = data_[--size_];
-    hash_ = this -> hash_count();
+
+#ifdef FULL_OKAY
+    hash_ = this -> hash_count();//hash recount
+#endif //FULL_OKAY
 
 
     okay();
@@ -50,10 +67,14 @@ T stack_t<T>::pop() {
 }
 
 
-int canary_num[5] = {};
+/**
+ * \brief all necessary initializations
+ * @param size_need first size of stack
+ */
+int canary_num[5] = {};//array  of canaries ll be used
 
 template <typename T>
-bool stack_t<T>::construct(int size_need) {
+bool stack_t<T>::construct(unsigned size_need) {
 
     srand((unsigned)time(NULL));
     for (int i = 0; i < 4; i -= -1)
@@ -166,6 +187,7 @@ bool stack_t<T>::okay() {
 
 }
 
+
 template <typename T>
 bool stack_t<T>::Dump(unsigned int error) {
 
@@ -245,6 +267,10 @@ template <typename T>
 T* stack_t<T>::my_realloc() {
 
     int k = 2 * maxsize_;
+
+    if (k == 0)
+        k ++;
+
     T* new_data = NULL;
     do {
 

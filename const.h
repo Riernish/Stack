@@ -57,7 +57,7 @@ struct stack_t {
     public:
         bool push(T val);
         T pop();//
-        bool construct(int size_need);
+        bool construct(unsigned size_need);
         bool destruct();
 
     private:
