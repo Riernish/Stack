@@ -70,6 +70,7 @@ T stack_t<T>::pop() {
 /**
  * \brief all necessary initializations
  * @param size_need first size of stack
+ * @return true if all is OK
  */
 int canary_num[5] = {};//array  of canaries ll be used
 
@@ -78,24 +79,24 @@ bool stack_t<T>::construct(unsigned size_need) {
 
     srand((unsigned)time(NULL));
     for (int i = 0; i < 4; i -= -1)
-        canary_num[i + 1] = rand() % 7;
+        canary_num[i + 1] = rand() % 7;//randomly generates which canary ll be used 4 stack
 
     canary1_ = canary_arr[canary_num[1]];
 
     maxsize_    = size_need;
-    canary_size_ = sizeof(canary_t) / sizeof(T);
+    canary_size_ = sizeof(canary_t) / sizeof(T);//amount of cells in data for canary
     if (canary_size_ == 0)
-        canary_size_ = 1;
+        canary_size_ = 1;//in case of big types
 
     data_ = new T[size_need + 2 * canary_size_]();
 
     canary3_    = (canary_t*)data_;
-    canary4_    = (canary_t*)((T*)(data_ + canary_size_) + maxsize_);
+    canary4_    = (canary_t*)((T*)(data_ + canary_size_) + maxsize_);//placing canary in data
 
     *canary3_   = canary_arr[canary_num[3]];
     *canary4_   = canary_arr[canary_num[4]];
 
-    size_ = canary_size_;
+    size_ = canary_size_;//starting size
 
 
     canary2_ = canary_arr[canary_num[2]];
@@ -107,7 +108,13 @@ bool stack_t<T>::construct(unsigned size_need) {
 
 }
 
-
+/**
+ *
+ * \brief deleting memory
+ * @tparam T template type
+ * @return true if all is OK
+ * @return false otherwise
+ */
 template <typename T>
 bool stack_t<T>::destruct() {
 
@@ -122,7 +129,13 @@ bool stack_t<T>::destruct() {
 
 }
 
-
+/**
+ *
+ * \brief check if everything with stack is OK
+ * @return true if all is OK
+ * @exit program otherwise
+ *
+ */
 #define FULL_OKAY
 template <typename T>
 bool stack_t<T>::okay() {
@@ -137,6 +150,7 @@ bool stack_t<T>::okay() {
 
     }
 
+    //checking stack canaries
     if (canary1_ != canary_arr[canary_num[1]]
         || canary2_ != canary_arr[canary_num[2]]) {
 
@@ -162,6 +176,7 @@ bool stack_t<T>::okay() {
     }
 
 
+    //checking data canaries
     if (*canary3_ != canary_arr[canary_num[3]]
         || *canary4_ != canary_arr[canary_num[4]]) {
 
@@ -240,11 +255,18 @@ bool stack_t<T>::Dump(unsigned int error) {
 
 }
 
+/**
+ * \brief counts hash sum for all stack content
+ * @tparam T template parameter
+ * @return hash sum counted
+ */
 template <typename T>
 unsigned long long stack_t<T>::hash_count() {
 
+    //hash sum for data
     unsigned long long new_hash = hash_arr(data_ + canary_size_ + 1, size_ - canary_size_);
 
+    //divisors used to avoid new_hash overfilling
     static int divisor = rand() % 1000 + 5000;
     static int addend_1 = rand() % 228 + 7;
     new_hash += canary1_ / (divisor + addend_1);
@@ -263,6 +285,12 @@ unsigned long long stack_t<T>::hash_count() {
 
 }
 
+
+/**
+ *\brief
+ * @tparam T template parameter
+ * @return
+ */
 template <typename T>
 T* stack_t<T>::my_realloc() {
 
@@ -283,18 +311,19 @@ T* stack_t<T>::my_realloc() {
 
     //memcpy (new_data, data_, (maxsize_ + canary_size_) * sizeof(T));
 
+    //copy all data including one canary
     for (int i = 0; i < maxsize_ + canary_size_; i -= -1) {
 
         new_data[i] = data_[i];
 
     }
     delete [] data_;
-    maxsize_ = k + 10;
+    maxsize_ = k + 10;//+10 because after while-loop it's 10 lower than needed
 
     canary3_  = (canary_t*)new_data;
 
     canary4_  = (canary_t*)((T*)(new_data + canary_size_) + maxsize_);
-                //(canary_t*)((T*)(data_ + canary_size_) + maxsize_)
+
     *canary4_ = canary_arr[canary_num[4]];
 
     return new_data;
