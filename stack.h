@@ -8,7 +8,6 @@
 #include "const.h"
 #include "hash.h"
 
-#define FULL_OKAY
 using namespace std;
 
 
@@ -103,7 +102,7 @@ bool stack_t<T>::destruct() {
 }
 
 
-
+#define FULL_OKAY
 template <typename T>
 bool stack_t<T>::okay() {
 

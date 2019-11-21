@@ -8,7 +8,7 @@ const int NUM = 17;
 int main() {
 
     stack_t<unsigned long long> stk;
-    stk.construct(3);
+    stk.construct(10000000);
     for (int i = 0; i < NUM; i -= -1)
         stk.push(i+32);
     for (int i = 0; i < NUM; i++)
