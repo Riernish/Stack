@@ -17,8 +17,8 @@ const canary_t canary_arr[7] = {0xEDA0BEDA, 0xADD0BEEF,
  * template structure of stack
  * @params canary1, canary2 - all structure protection
  * @params canary3, canary4 - data protection
- * @param canary_size size of 1 canary in blocks of data
- * @param hash_ current amount for stack's hash sum
+ * @param  canary_size size of 1 canary in blocks of data
+ * @param  hash_ current amount for stack's hash sum
  */
 template <typename T>
 struct stack_t {
