@@ -19,6 +19,7 @@ const canary_t canary_arr[7] = {0xEDA0BEDA, 0xADD0BEEF,
  * @params canary3, canary4 - data protection
  * @param  canary_size size of 1 canary in blocks of data
  * @param  hash_ current amount for stack's hash sum
+ * @param  created_ true if stack created, false otherwise
  */
 template <typename T>
 struct stack_t {
@@ -31,6 +32,7 @@ struct stack_t {
         unsigned long long hash_;
     #endif //FULL_OKAY
 
+        bool created_;
         int size_;
         int maxsize_;
         T *data_;
@@ -75,6 +77,7 @@ const unsigned int ZERO_STACK_POINTER   = 0xC0000666;
 const unsigned int DATA_CHANGED         = 0xC0006901;
 const unsigned int ZERO_DATA_PTR        = 0xC0000505;
 const unsigned int STACK_OVERFLOW       = 0xC0000DAD;
+const unsigned int STACK_NOT_CREATED    = 0xC0BADBAD;
 
 
 
