@@ -101,6 +101,7 @@ bool stack_t<T>::construct(unsigned size_need) {
 
     canary2_ = canary_arr[canary_num[2]];
     hash_ = this -> hash_count();
+    created_ = true;
 
     okay();
 
@@ -142,7 +143,12 @@ bool stack_t<T>::okay() {
 
     #ifdef FULL_OKAY
 
+    if (created_ == false) {
 
+        this -> Dump(STACK_NOT_CREATED);
+        exit(STACK_NOT_CREATED);
+
+    }
     if (this == nullptr) {
 
         this -> Dump(ZERO_STACK_POINTER);
@@ -206,6 +212,12 @@ bool stack_t<T>::okay() {
 template <typename T>
 bool stack_t<T>::Dump(unsigned int error) {
 
+    if (error == STACK_NOT_CREATED) {
+
+        cout<< "Stack was not  created" << endl;
+        return true;
+
+    }
     cout << "this = " << this << endl;
     cout << "data = " << data_ << endl;
     cout << "canary1_ = " << hex << canary1_ << endl;
