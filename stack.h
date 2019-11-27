@@ -10,6 +10,13 @@
 
 using namespace std;
 
+template <typename T>
+inline T zero() {
+
+    return {};
+
+}
+
 /**
  * \brief pushes value to stack
  * @tparam T template type
@@ -89,6 +96,7 @@ bool stack_t<T>::construct(unsigned size_need) {
         canary_size_ = 1;//in case of big types
 
     data_ = new T[size_need + 2 * canary_size_]();
+    data_[canary_size_] = zero<T>();
 
     canary3_    = (canary_t*)data_;
     canary4_    = (canary_t*)((T*)(data_ + canary_size_) + maxsize_);//placing canary in data
@@ -318,8 +326,13 @@ T* stack_t<T>::my_realloc() {
         k -= 10;
 
     } while (new_data == NULL && k > maxsize_);
-    if (k + 10 <= maxsize_)
+    if (k + 10 <= maxsize_) {
+
+        if (new_data)
+            delete[] new_data;
         return data_;
+
+    }
 
     //memcpy (new_data, data_, (maxsize_ + canary_size_) * sizeof(T));
 
