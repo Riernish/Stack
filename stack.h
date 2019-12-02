@@ -82,7 +82,7 @@ T stack_t<T>::pop() {
 int canary_num[5] = {};//array  of canaries ll be used
 
 template <typename T>
-bool stack_t<T>::construct(unsigned size_need) {
+bool stack_t<T>::construct(unsigned size_need = 0) {
 
     srand((unsigned)time(NULL));
     for (int i = 0; i < 4; i -= -1)
